@@ -1,0 +1,360 @@
+---
+title: "Penguin Assignment"
+date: "2022-12-01"
+output: html_document
+
+---
+
+Purpose of script:
+Run ANCOVA analysis of the effects of body mass and species on flipper length in Adelie and Chinstrap penguins and produce and save graphs that visusalise the ANCOVA analysis.
+
+
+### Load the packages and raw data
+```{r Load the packages,error = FALSE}
+library(palmerpenguins)
+library(ggplot2)
+suppressPackageStartupMessages(library(janitor)) 
+suppressPackageStartupMessages(library(dplyr))
+library(tidyr)
+library(ragg) 
+library(svglite)
+
+```
+
+
+## Question 1: What is the reproducibility crisis in science and should we care?
+In the past decade or so, attention has been drawn to the fact that scientific studies are often difficult or even impossible to reproduce (Baker, 2016). This seems to be the case for all natural sciences fields, and one could speculate that it might apply even more widely. This lack of reproducibility, that is, the use of data and analysis of one researcher to regenerate the results of another researcher has become known to as the reproducibility crisis (Goodman, 2016). Various factors have been pointed to as potential causes for this crisis, many of which can be traced back to the increasingly competitive nature of academia, particularly the increased pressure to publish papers (Baker, 2016). This pressure results from papers competing to have high impact factors and the fact that grants and jobs are generally awarded to people with the highest number of papers in the most prestigious journals. Although there is increasing pressure to move away from using impact factors as researchers’ evaluation metric this hasn’t been achieved yet (Wilson 2022; McKiernan 2016). Furthermore, ensuring reproducibility generally increases the time spent on projects and can result in higher costs (Baker, 2016).
+
+The reproducibility crisis is of particular concern as the lack of reproducibility of a study’s results can undermine its credibility. (Goodman, 2016) There are several reasons for why research should be reproducible. Fundamentally, when research is reproducible it is much easier for others to replicate the study and understand how the conclusions were reached as each step of the study is available. If other scientists then reach the same conclusion as the original scientist, it increases the credibility of the findings. Alternatively, they might have different analyses of the results, but this creates opportunities for new insights (McKiernan et al., 2016).
+
+In contrast, benefits that have been associated with open-access research and producing more reproducible work include increases in citations and attention in the media, facilitation of connecting with other researchers for collaborations via rapid access to new data, job opportunities and funding opportunities (McKiernan et al., 2016). For example, new awards specifically for open research have been created such as the United States National Institutes of Health and the Welcome Trust, and more institutions have started exploring alternative metrics in evaluating the contribution of research outputs (McKiernan et al., 2016).
+
+Some solutions to the reproducibility crisis have been suggested. At the level of the researcher, these include complete transparency about the data, more robust experimental designs, improved statistics, better mentorship and pre-registering hypotheses (Baker, 2016). For funders and publishers, they could provide incentives for reproducible science practices will be an important step to help address this problem (McKiernan et al., 2016). Some funding bodies have already taken steps to address this crisis, including the National Institute of Health, however, the impact of these is not sufficient and there is still a long road to go before fully open and reproducible research becomes the norm.
+
+
+
+## Question 2: Create a figure using the Palmer Penguin dataset that is correct but badly communicates the data
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+source("functions/cleaning.R") # load in the cleaning file from the functions folder it is in
+
+penguins_clean <- cleaning(penguins_raw)
+ggplot(data = penguins_clean, 
+                          aes(x = sex, 
+                              y = body_mass_g)) +
+                          geom_boxplot() +
+  geom_jitter(aes(color=sex))
+```
+
+
+##### Written answer about the figure: 
+The boxplot shows the distribution of data points for body mass of the penguin species for both sexes. Although it shows the interquartile ranges of the body mass for each sex and the data points for the sexes are different colours, several changes could be made to communicate this data better. Firstly the NAs should be removed as they are not relevant. Secondly, the axes labels should be made renamed to make them clearer and a title and a subtitle could be added to help the viewer understand the figure is showing. Thirdly, the boxplot could be made narrower to make the figure neater. Fourth, the background colour should be changed to provide more contrast with the dots, e.g. a white background with grey grid lines. Fifth, the dots for the distribution of each sex could be set as different shapes to make it less likely the two get confused. Increasing the transparency of the dots could also make their distribution clearer. Lastly, making the same boxplot but for each penguin species separately would allow for an interesting comparison.
+
+
+
+## Question 3: Discuss how colour choice is important for communciation in science figures and what considerations should be made
+Scientific datasets are commonly rather dense and multidimensional, but researchers can use visual aids to help communicate their scientific findings and the underlying data more effectively. Colours influence the way humans perceive information and therefore can be a useful tool to improve figures so that they communicate the data better (Kaspar & Crameri, 2022). However, if wrongly used they can have the opposite effect. Colour misuse can, for example, highlight parts of data at the expense of other equally important parts, make it inaccessible to those with colour vision deficiencies and/or result in the meaning being poorly transferred well if the figure is printed in black and white (Kaspar & Crameri, 2022). These forms of incorrect use of colours are relatively common among the science community, publishers and the wider media (Crameri et al., 2020).
+	Several considerations should be made to ensure the effective use of colours to create scientific figures that are universally accessible and accurately represent the data. Firstly, the colour map should be perceptually uniform, i.e. the same data variation should have the same colour space across the dataspace so that the viewer will perceive each colour space as the same change (Crameri et al., 2020). Care should also be taken to choose the most appropriate colour map class and type relevant to the data being presented to improve data representation further. Another important feature of scientific colour maps is perceptual colour order as it can emphasise gradients and patterns in the data to ensure they are more easily perceived and significant values can be more easily compared. This can be done by having both brightness and lightness increase in a linear way which should be more intuitive to the person viewing the figure (Crameri et al., 2020). Additionally, a colour bar should be included as a reference for the viewer when colour scales are used (Crameri et al., 2020).
+	In order to make the colour palette accessible to more potential readers, colours that can also be perceived by the 8.5% of the human population that have colour-vision deficiencies should be selected (Neitz and Neitz, 2011). As most people with colour vision deficiency struggle to distinguish between shades of red, yellow and green, these colours should be avoided at similar luminosities. This can easily be avoided nowadays by mathematically optimising the colour maps to take colour vision deficiencies into account using colour appearance models, or simply using colour vision deficiency-friendly colour maps that are easily available online and can be exported to several different formats (Crameri et al., 2020).
+	For the visual aids to remain readable after being converted to black and white, a monotonic lightness gradient should be used. The colour and brightness of the background behind the coloured elements should also be used to create contrast with the colours to enhance the figure. Lastly, once a scientifically derived colour map has been created, or sourced online, its length should not then be altered (Crameri et al., 2020).
+
+
+
+## Question 4: Run a statistical test on the Palmer Penguins dataset and produce a figure to explain it.
+
+
+Here is the url to my github repo containing the rmd file with my code, functions and figures:
+[Github repo](https://github.com/margretasdis/penguins)
+
+
+
+
+##### Set the working directory manually
+This can be done in the Session tab -> Set Working directory or using the setwd() function
+
+##### Load the raw Penguin data
+The location of this csv depends on where it has been saved
+```{r Load the raw data}
+penguins_raw <- read.csv("data_raw/penguins_raw.csv") 
+head(penguins_raw)
+```
+
+#### Clean the data
+Before running a statistical test will first use a function called cleaning to remove empty rows and remove columns called comment and delta in the raw penguin dataset. This function is in the cleaning.R file and it is within the functions folder.
+
+```{r Call in cleaning function and use it to clean the penguin dataset}
+
+source("functions/cleaning.R") # load in the cleaning file from the functions folder it is in
+
+penguins_clean <- cleaning(penguins_raw) # run the cleaning function on the raw data and save it as a new dataset
+
+# This is what the cleaning function does:
+# -----------------------------------------------------------
+# # Clean column names, remove empty rows, remove columns called comment and delta
+
+# cleaning <- function(data_raw){
+#   data_raw %>%
+#     clean_names() %>%
+#     remove_empty(c("rows", "cols")) %>%
+#     select(-starts_with("delta")) %>%
+#     select(-comments)
+# }
+# -----------------------------------------------------------
+
+```
+
+
+##### Create a csv with the newly cleaned data and take a look at the dataset
+
+```{r Save penguin_clean in a new file}
+write.csv(penguins_clean, "data_clean/penguins_clean.csv") # back up the cleaned dataset in a folder called data_clean
+
+head(penguins_clean)
+
+```
+
+
+### Run an ANCOVA statistical test on the penguins dataset
+To test the main and interaction effects of species (categorical explanatory variable) and body mass (explanatory continuous variable) on bill length (response variable).
+
+Aim is to analyse the response of bill length to the main effects of body mass and species and their interactions.
+
+First will use another function to subset the data to remove missing data and only include bill length (culmen length), bill depth (culmen depth) and species using a function called remove_empty_culmen_data which is also within the cleaning.R file
+
+
+Use this new remove_empty_culmen_data function on the penguins_clean dataset
+```{r Call new function to action on the penguins_clean dataset}
+
+source("functions/cleaning.R")
+penguins_culmen <- remove_empty_culmen_data(penguins_clean) # run the remove_empty_culmen function on the cleaned data
+
+head(penguins_culmen)
+
+
+# This is what the remove_empty_culmen_data function does:
+# -----------------------------------------------------------
+# Remove NAs, only include culmen length, culmen depth and species, and use a function
+
+# remove_empty_culmen_data <- function(data_clean){
+#  data_clean %>%
+#    filter(!is.na(culmen_length_mm)) %>%
+#    filter(!is.na(body_mass_g)) %>%
+#    select(species, body_mass_g, culmen_length_mm)
+#}
+# -----------------------------------------------------------
+```
+
+### Model specification
+Fit a linear model that includes an interaction between species and body mass where species is the categorical explanatory variable, body_mass_g is the continous explanatory variable and culmen_length_mm is the response variable 
+```{r Fit a linear model that includes an interaction between species and body mass}
+peng_mod <- lm(culmen_length_mm ~ species * body_mass_g, penguins_culmen) 
+
+```
+
+#### Check assumptions of the model 
+Do this by plotting a qqplot and a residuals vs fitted plot for the model
+```{r}
+par(mfrow=c(2,2)) 
+plot(peng_mod, which = 2) # qqplot for the model
+plot(peng_mod, which = 1) # residuals vs. fitted plot for the model
+```
+
+##### Qqplot to assess normality
+Based on the qqplot, the residuals seem normally distributed as they follow the straight line relatively well. There are a few points that are a bit smaller or larger than we would expect based on the normal distribution, but there are not any very large deviations from what is expected. Overall, the residuals approximately lie on the reference line and thus the assumptions for normality of this model are  met.
+
+
+##### Residuals vs. fitted plot to examine homogeneity
+There are no residuals that stand far out from the rest, i.e. there aren't any outliers that are a really long way from the regression line. As the residuals form a sort of horizontal band around 0 the variance does not seem to be changing systematically and the Y values are fitting the assumptions of linearity and equal variance. Lastly, there is no obvious pattern where all the points are below the line on one side of the graph and below it on the other. Thus, overall can conclude that there isn't the suggestion of a pattern in variance or location of the residuals, i.e. the assumption of homogeneity of variance of this model is met.
+
+
+### Model results
+Have a look at the summary and ANOVA tables for the model
+
+##### Summary table:
+```{r}
+summary(peng_mod)
+```
+The summary table show that 29.9941 is the intercept for Adelie penguins, 32.1742 for Chinstrap, and 26.7395 for Gentoo.
+The slope for Adelie penguins is 0.0031879, 0.0044627 for Chinstrap, and 0.0040909 for Gentoo.
+
+
+
+##### ANOVA table:
+```{r ANOVA table}
+anova(peng_mod)
+
+```
+
+Based on this ANOVA table and the plot there is not a significant effect between species and body mass (P>0.05).
+Thus, will now remove the interaction between species and body mass from our model.
+
+
+
+### Model specification
+Fit a linear model that does not include an interaction between species and body mass to focus only on the main effects. Body mass is the explanatory variable and beak length is the response variable.
+
+Research question: Can we use body mass to predict bill length in these penguins?
+
+```{r Linear model that includes an interaction between species and body mass}
+peng_mod1 <- lm(culmen_length_mm ~ body_mass_g, penguins_culmen)
+```
+
+
+### Model results
+Have a look at the summary table for this model
+
+```{r Summary and anova table for peng_mod1}
+summary(peng_mod1)
+```
+From the summary table we can see that the p-value is significant (P<0.05) so can conclude that there is evidence we can use body mass to predict bill length in these penguin species.
+
+### Model visualisation
+Plot a figure explaining this using a function from a file called plotting.R which is within the functions folder
+
+```{r Plot a figure supporting the statisical test, message = FALSE, warning = FALSE}
+
+source("functions/plotting.R")
+
+penguin_beak_plot <- plot_beak_plot(penguins_culmen)
+penguin_beak_plot
+
+#-----------------------------------------------------------
+#Plot the data and linear regression lines for each separately but in the same plot. Each species is coloured differently, the alpha level is set to help see the spread of data points, regression lines ar added, the background theme is changed to black and white, new labels are made for the axes and a title is added
+
+#plot_beak_plot <- function(penguins_culmen) {
+#  penguins_culmen %>%
+#  ggplot(aes(x = body_mass_g, y = culmen_length_mm, colour = species, shape = species), alpha = 0.05) +
+#  geom_point(alpha = 0.7) +
+#  geom_smooth(method = "lm", se = TRUE) +
+#  theme_bw() +
+#  labs(x = "\nBody mass (g)", y = "Beak length (mm)\n", colour = "Penguin species", shape = "Penguin species", title = 
+#  "Relationship between penguin bodymass and beak length", subtitle = "Bill length and body mass for Adelie, Chinstrap and 
+#  Gentoo Penguins at Palmer Station LTER") +
+#  scale_color_manual(values = c("dodgerblue","darkorange2","darkorchid4"))
+#}
+#-----------------------------------------------------------
+
+```
+
+### Saving the plot
+
+Save it both as a png and as a vector using functions from the cleaning file
+
+
+##### Save the plot as a png
+```{r, warning = FALSE, message = FALSE}
+save_beak_plot_png(penguins_culmen, 
+                      "figures/penguinfigure.png", 
+                      size = 20, res = 600, scaling=1)
+
+# This is what is within the save_beak_plot function:
+# -----------------------------------------------------------
+
+# save_beak_plot_png <- function(penguins_culmen, filename, size, res, scaling){
+#  agg_png(filename, width = size, 
+#          height = size, 
+#          units = "cm", 
+#          res = res, 
+#          scaling = scaling)
+#  penguin_beak_plot <- plot_beak_plot(penguins_culmen)
+#  print(penguin_beak_plot)
+#  dev.off()
+#}
+# -----------------------------------------------------------
+```
+
+
+##### Save the plot as a vector
+```{r, warning = FALSE, message = FALSE}
+save_beak_plot_svg(penguins_culmen, "figures/assignmentfigure.svg", 
+                      size = 20, scaling = 1)
+
+# This is what is within the save_beak_plot function:
+# -----------------------------------------------------------
+# save_beak_plot_svg <- function(penguins_culmen, filename, size, scaling){
+#  size_inches = size/2.54
+#  svglite(filename, width = size_inches, height = size_inches, scaling = scaling)
+#  penguin_beak_plot <- plot_beak_plot(penguins_culmen)
+#  print(penguin_beak_plot)
+#  dev.off()
+# }
+# -----------------------------------------------------------
+```
+
+
+
+#### Write session info to text file
+```{r Generate a session info text file}
+
+sessionInfo() %>% capture.output(file="session_info/session_info.txt") 
+
+```
+
+
+## Question 5
+URL of the work I am are reviewing: https://github.com/SpinningTardigrade/Penguin-Assignment?fbclid=IwAR3P1VhPF5iMUblqdVt9gRpRQjWmAsovTEUIIXJw1JnepdShyUMtR4NrKx4
+
+What elements of your partner's code helped you to understand their data pipeline?
+
+They annotated the code well to explain what different parts of it did, particularly in function source files. In many cases, they both included concise descriptions of what each function did in the assignment itself when they were being used in the main script. They have separate files with all the necessary libraries, functions for plotting, and the resulting figures, which makes the main script easy to follow. Additionally, they include both a file that contains information on the package version of the software they had used as well as a README.md file with a project description and instructions on how to install and run the project. This meant it was clear from the beginning what the aim of the code was, how to run it and what package version was needed, which facilitated its reproduction.
+
+
+Did you try to run it? Did it work?
+
+All parts of the code worked when I ran it and produced the files and figures needed for the assignment.
+What suggestions would you make for improving their code to make it more understandable or reproducible, and why?
+In some cases, comments explaining parts of the functions that use data pipelines are lacking, such as the one that plots the graph to visualise the ANCOVA analysis and the function for saving the plots. Although this could be looked up online, including these descriptions within the file would save time lost in switching between help files and the script. Additionally, when the functions from source files are used in the main script it would also have saved time to have a comment before that stated from which file each function is. Lastly, more explanations surrounding the ANCOVA analysis itself would have made it made it easier to follow.
+
+
+If you needed to alter your partner's figure using their code, do you think that would be easy or difficult, and why?
+
+Overall, the code is very clear and well annotated, thus, it would be relatively easy to make any changes to it. However, as previously mentioned, including more detailed comments explaining the code in some places would have been helpful. 
+Reflect on your own code and figure from Question 4 with reference to your partner's work and also their review of yours.
+I did an ANCOVA analysis and then made a function to make a plot in a separate file, similarly to my partner. However, I included more details on the steps of my analysis, but their code was still not difficult to follow. Although both of us had separate files that included the functions for our plots, my partner additionally had a file for their ANCOVA analysis which would be particularly useful in a longer analysis to make the main script more concise.
+
+
+What improvements did they suggest, and do you agree? What did you learn about writing code for other people?
+
+I had not uploaded a figure in my GitHub repository which created problems when my partner tried to knit the file. They also mentioned that I could include more descriptions of what some of my functions did in the function source files, rather than only in the main script, which I agree would be very useful for future use of those functions. This exercise made the importance of including descriptive explanations throughout R scripts and structuring the code in an intuitive way, to create more reproducible code very clear and I will make sure to implement the skills learnt in the future.
+
+
+## Bibliography
+
+Baker, M. (2016). 1,500 scientists lift the lid on reproducibility. Nature, 533, 452-454. 
+Crameri, F., Shephard, G. E., & Heron, P. J. (2020). The misuse of colour in science communication. Nat Commun, 11(1), 5444. https://doi.org/10.1038/s41467-020-19160-7 
+Goodman, S. N. F., D.; loannidis J. P. A. (2016). What does research reproducibility mean? Science Traanslational Medicine, 8. 
+Kaspar, F., & Crameri, F. (2022). Coloring Chemistry-How Mindful Color Choices Improve Chemical Communication. Angew Chem Int Ed Engl, 61(16), e202114910. https://doi.org/10.1002/anie.202114910 
+McKiernan, E. C., Bourne, P. E., Brown, C. T., Buck, S., Kenall, A., Lin, J., McDougall, D., Nosek, B. A., Ram, K., Soderberg, C. K., Spies, J. R., Thaney, K., Updegrove, A., Woo, K. H., & Yarkoni, T. (2016). How open science helps researchers succeed. Elife, 5. https://doi.org/10.7554/eLife.16800 
+Neitz, J. & Neitz, M. The genetics of normal and defective color vision. Vis. Res. 51, 633–
+651 (2011). https://doi.org/10.1038/s41467-020-19160-7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
